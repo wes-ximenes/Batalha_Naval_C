@@ -176,7 +176,7 @@ void exibirTabuleiro(int tabuleiro[TAM_TAB][TAM_TAB]) {
             else if (tabuleiro[i][j] == 3)//Se navio (3), printará o N
                 printf("N ");
             else if (tabuleiro[i][j] == 5)//Se habilidade (5), printará o *
-                printf("* ");
+                printf("P ");
         }
         printf("\n");
     }
@@ -215,15 +215,23 @@ void posicionarNavioDiagonalSecundaria(int tabuleiro[TAM_TAB][TAM_TAB], int linh
 
 // Função para construir matriz de habilidade em forma de cone
 void construirCone(int matriz[TAM_HAB][TAM_HAB]) {
+    // Zera toda a matriz primeiro
     for (int i = 0; i < TAM_HAB; i++) {
         for (int j = 0; j < TAM_HAB; j++) {
-            if (j >= TAM_HAB / 2 - i && j <= TAM_HAB / 2 + i)
-                matriz[i][j] = 1; //marcando 1 nas posições que formam o cone
-            else
-                matriz[i][j] = 0; // marcando 0 nos arredores do cone
+            matriz[i][j] = 0;
+        }
+    }
+
+    // Constrói o cone com 3 linhas de altura
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < TAM_HAB; j++) {
+            if (j >= TAM_HAB / 2 - i && j <= TAM_HAB / 2 + i) {
+                matriz[i][j] = 1;
+            }
         }
     }
 }
+
 
 // Função para construir matriz de habilidade em forma de cruz
 void construirCruz(int matriz[TAM_HAB][TAM_HAB]) {
@@ -270,9 +278,9 @@ int main() {
     inicializarTabuleiro(tabuleiro);
 
     // Posiciona 4 navios
-    posicionarNavioHorizontal(tabuleiro, 1, 2); //[i][j]
-    posicionarNavioVertical(tabuleiro, 4, 6);
-    posicionarNavioDiagonalPrincipal(tabuleiro, 0, 7);
+    posicionarNavioHorizontal(tabuleiro, 0, 0); //[i][j]
+    posicionarNavioVertical(tabuleiro, 0, 9);
+    posicionarNavioDiagonalPrincipal(tabuleiro, 6, 0);
     posicionarNavioDiagonalSecundaria(tabuleiro, 6, 9);
 
     // Matrizes de habilidades
@@ -285,9 +293,9 @@ int main() {
     construirOctaedro(octaedro);
 
     // Aplica habilidades no tabuleiro
-    aplicarHabilidade(tabuleiro, cone, 2, 2);
-    aplicarHabilidade(tabuleiro, cruz, 5, 5);
-    aplicarHabilidade(tabuleiro, octaedro, 7, 3);
+    aplicarHabilidade(tabuleiro, cone, 2, 4);
+    aplicarHabilidade(tabuleiro, cruz, 4, 7);
+    aplicarHabilidade(tabuleiro, octaedro, 7, 4);
 
     // Exibe tabuleiro final
     exibirTabuleiro(tabuleiro);
@@ -299,7 +307,7 @@ int main() {
 
 N = navio (3)
 
-* = área afetada por habilidade (5)
+P = área afetada por habilidade/Poder (5)
 
 */
 
